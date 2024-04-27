@@ -1,61 +1,49 @@
 package it.uniroma3.diadia.ambienti;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
-
+import org.junit.Test;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 
-class StanzaTest {
+public class StanzaTest {
 
-	private Stanza vuota;
-	private Stanza piena;
-	private Stanza libera;
-	private Stanza martelloNO;
-	private Stanza martelloSI;
-	Attrezzo martello = new Attrezzo("martello", 1);
-	
-	@Before
-	void setUp() {
-	this.vuota= new Stanza(null);
-	this.piena= new Stanza("atrio");
-	this.libera= new Stanza("bagno");
-	this.martelloNO= new Stanza("atrio1");
-	this.martelloSI= new Stanza("bagno1");
-	
-	this.piena.numeroAttrezzi=10;
-	this.martelloSI.addAttrezzo(martello);
-	
-	}
-	
-	@Test
-	void testVuota() {
-		assertEquals(false,this.vuota.addAttrezzo(martello));
-	}
-	
-	@Test
-	void testPiena() {
-		assertEquals(false,this.piena.addAttrezzo(martello));
-	}
+    private Stanza stanza;
 
-	@Test
-	void testLibera() {
-		assertEquals(true,this.libera.addAttrezzo(martello));
-	}
-	
-	@Test
-	void testVuotaTogli() {
-		assertEquals(false,this.vuota.removeAttrezzo(martello));
-	}
-	
-	@Test
-	void testNoMartello() {
-		assertEquals(false,this.martelloNO.removeAttrezzo(martello));
-	}
+    @Before
+    public void setUp() {
+        stanza = new Stanza("Atrio");
+    }
 
-	@Test
-	void testSiMartello() {
-		assertEquals(true,this.martelloSI.removeAttrezzo(martello));
-	}
+    @Test
+    public void testAddAttrezzo_StanzaConSpazio() {
+        Attrezzo attrezzo = new Attrezzo("martello", 5);
+        assertTrue(stanza.addAttrezzo(attrezzo));
+        assertEquals(attrezzo, stanza.getAttrezzo("martello"));
+    }
+
+    @Test
+    public void testRemoveAttrezzo_AttrPresente() {
+        Attrezzo attrezzo = new Attrezzo("martello", 5);
+        stanza.addAttrezzo(attrezzo);
+        assertTrue(stanza.removeAttrezzo(attrezzo));
+        assertNull(stanza.getAttrezzo("martello"));
+    }
+
+    @Test
+    public void testRemoveAttrezzo_AttrAssente() {
+        Attrezzo attrezzo = new Attrezzo("martello", 5);
+        assertFalse(stanza.removeAttrezzo(attrezzo));
+    }
+
+    @Test
+    public void testHasAttrezzo_AttrPresente() {
+        Attrezzo attrezzo = new Attrezzo("martello", 5);
+        stanza.addAttrezzo(attrezzo);
+        assertTrue(stanza.hasAttrezzo("martello"));
+    }
+
+    @Test
+    public void testHasAttrezzo_AttrAssente() {
+        assertFalse(stanza.hasAttrezzo("martello"));
+    }
 }

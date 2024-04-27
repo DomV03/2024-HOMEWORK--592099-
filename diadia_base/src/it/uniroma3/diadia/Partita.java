@@ -16,10 +16,10 @@ public class Partita {
 
 
 	private Stanza stanzaCorrente;
-	private boolean finita;
+	private boolean finita=false;
 	
 	Labirinto labirinto = new Labirinto();
-	Giocatore giocatore = new Giocatore();
+	public Giocatore giocatore = new Giocatore();
 	
 	public Partita(){
 		
@@ -49,7 +49,7 @@ public class Partita {
 	 * @return vero se partita finita
 	 */
 	public boolean isFinita() {
-		return finita || vinta() || (giocatore.cfu == 0);
+		return  vinta() || (giocatore.cfu == 0) || finita;
 	}
 
 	/**
@@ -67,5 +67,10 @@ public class Partita {
     public void setCfu() {
 			giocatore.cfu--;		
 		}
+
+	public boolean isPersa() {
+		// TODO Auto-generated method stub
+		return   (giocatore.cfu == 0) ;
+	}
 
 }

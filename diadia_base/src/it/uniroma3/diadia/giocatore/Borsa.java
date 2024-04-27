@@ -58,27 +58,25 @@ return this.getAttrezzo(nomeAttrezzo)!=null;
 }
 
 public Attrezzo removeAttrezzo(String nomeAttrezzo) {
-Attrezzo a = null;
-// ---> TODO (implementare questo metodo) <---
-if(!isEmpty()) {
-	for (int i= 0; i<this.numeroAttrezzi; i++) {
-		if (this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
-			a=this.attrezzi[i];
-			this.numeroAttrezzi--;
-			if(this.numeroAttrezzi>0 ) {
-				for (int k=i; k<this.numeroAttrezzi-1; k++) {
-					this.attrezzi[k]=this.attrezzi[k+1];
-				}
-				return a;
-			}else {
-				this.attrezzi[0]=null;
-				return a;
-			}
-		}
-	}
-      
-}
-return a;
+    Attrezzo a = null;
+    if (!isEmpty()) {
+        for (int i = 0; i < this.numeroAttrezzi; i++) {
+            if (this.attrezzi[i].getNome().equals(nomeAttrezzo)) {
+                a = this.attrezzi[i];
+                this.numeroAttrezzi--;
+
+                // Shift the elements to the left to fill the gap
+                for (int k = i; k < this.numeroAttrezzi; k++) {
+                    this.attrezzi[k] = this.attrezzi[k + 1];
+                }
+
+                // Set the last element to null
+                this.attrezzi[this.numeroAttrezzi] = null;
+                break;
+            }
+        }
+    }
+    return a;
 }
 
 public String toString() {

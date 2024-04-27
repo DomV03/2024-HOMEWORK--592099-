@@ -1,46 +1,49 @@
 package it.uniroma3.diadia.ambienti;
-
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.*;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class LabirintoTest {
 
-	private Labirinto vuoto;
-	private Labirinto vincente;
-	private Labirinto perdente;
-	
-	@Before
-	public void setUp() {
-		this.vuoto = new Labirinto();
-		this.vincente = new Labirinto();
-		String Vincitore="Caffetteria";
-		Stanza stanzaV= new Stanza(Vincitore);
-		this.vincente.stanzaInizio=stanzaV;
-		this.vincente.stanzaVincente=stanzaV;
-		
-		this.perdente = new Labirinto();
-		String Perdente="Caffetteria";
-		Stanza stanzaP= new Stanza(Perdente);
-		this.perdente.stanzaInizio=stanzaP;
-		this.perdente.stanzaVincente=stanzaP;
-	}
+public class LabirintoTest {
 
-	@Test
-	void testVuoto() {
-		assertEquals(null,vuoto);
-	}
-	
-	@Test
-	void testVincente() {
-		assertEquals(new Stanza("Caffetteria"),this.vincente.getStanzaVincente());
-	}
+    private Labirinto labirinto;
 
-	@Test
-	void testStanzaDifferente() {
-		//mi aspetto che sia falso
-		assertEquals(new Stanza("Bar"),this.perdente.getStanzaVincente());
-	}
+    @Before
+    public void setUp() {
+        labirinto = new Labirinto();
+        labirinto.creaStanze();
+    }
+
+    @Test
+    public void testStanzaVincente() {
+        Stanza stanzaVincente = labirinto.getStanzaVincente();
+        assertNotNull(stanzaVincente);
+    }
+
+    @Test
+    public void testStanzaInizio() {
+        Stanza stanzaInizio = labirinto.stanzaInizio;
+        assertNotNull(stanzaInizio);
+    }
+
+    @Test
+    public void testCollegamentoStanze() {
+        Stanza aulaN10 = labirinto.stanzaInizio.getStanzaAdiacente("sud");
+        assertNotNull(aulaN10);
+        assertEquals("Aula N10", aulaN10.getNome());
+
+        Stanza atrio = aulaN10.getStanzaAdiacente("nord");
+        assertNotNull(atrio);
+        assertEquals("Atrio", atrio.getNome());
+
+        Stanza aulaN11 = atrio.getStanzaAdiacente("est");
+        assertNotNull(aulaN11);
+        assertEquals("Aula N11", aulaN11.getNome());
+
+        Stanza laboratorio = atrio.getStanzaAdiacente("ovest");
+        assertNotNull(laboratorio);
+        assertEquals("Laboratorio Campus", laboratorio.getNome());
+    }
+
 
 }
